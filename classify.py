@@ -10,7 +10,8 @@ import numpy
 import string
 import random
 import argparse
-import tensorflow as tf
+import tflite_runtime.interpreter as tf
+
 # import tensorflow.keras as keras
 
 def decode(characters, y):
@@ -47,15 +48,16 @@ def main():
 
     print("Classifying captchas with symbol set {" + captcha_symbols + "}")
 
-    with tf.device('/cpu:0'):
-        with open(args.output, 'w', newline="\n") as output_file:
-            json_file = open(args.model_name+'.json', 'r')
-            loaded_model_json = json_file.read()
-            json_file.close()
-            converter = tf.lite.TFLiteConverter.from_keras_model_file(args.model_name+'.h5')
-            model = converter.convert()
+    # with tf.device('/cpu:0'):
+    with open(args.output, 'w', newline="\n") as output_file:
+            # json_file = open(args.model_name+'.json', 'r')
+            # loaded_model_json = json_file.read()
+            # json_file.close()
+            # keras_model = tf.keras.models.load_model(args.model_name+'.h5')
+            # converter = tf.TFLiteConverter.from_keras_model(args.model_name+'.h5')
+            # model = converter.convert()
             # Load the TFLite model and allocate tensors.
-            interpreter = tf.lite.Interpreter(model_content=model)
+            interpreter = tf.Interpreter(args.model_name)
             interpreter.allocate_tensors()
 
             for x in os.listdir(args.captcha_dir):
@@ -81,7 +83,7 @@ def main():
                 interpreter.invoke()
                 print(output_details)
                 captcha = ""
-                for i in range(4):
+                for i in range(6):
                     prediction = interpreter.get_tensor(output_details[i]['index'])
                     cap = decode(captcha_symbols, prediction)
                     if(cap != '_'):
