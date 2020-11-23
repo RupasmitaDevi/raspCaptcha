@@ -44,6 +44,9 @@ fi
 cd ./project2
 cd ./code/raspCaptcha
 
+echo "Enter details to pull from raspCaptcha repo:"
+git pull
+
 python classify.py --model-name $modelFile --captcha-dir $captchaDir --output $outputFile --symbols train_classify_symbols.txt
 
 status=`git status --porcelain`
