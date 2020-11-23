@@ -7,7 +7,7 @@ echo "$now"
 echo "Current date: $now"
 
 modelFile="converted_model2.tflite"
-captchaDir="DEVIR-project2rpi"
+captchaDir="KILROYDA-project2rpi-live"
 outputFile="$captchaDir""_output.txt"
 
 outputModified=" M $outputFile"
