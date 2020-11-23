@@ -9,7 +9,7 @@ echo "activating virtual environment - testenv..."
 
 echo "installing wheel..."
 pip3 install wheel
-
+ 
 echo "installing tflite_runtime..."
 pip3 install https://github.com/google-coral/pycoral/releases/download/release-frogfish/tflite_runtime-2.5.0-cp38-cp38-linux_armv7l.whl
 

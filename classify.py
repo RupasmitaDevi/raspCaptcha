@@ -50,13 +50,7 @@ def main():
 
     # with tf.device('/cpu:0'):
     with open(args.output, 'w', newline="\n") as output_file:
-            # json_file = open(args.model_name+'.json', 'r')
-            # loaded_model_json = json_file.read()
-            # json_file.close()
-            # keras_model = tf.keras.models.load_model(args.model_name+'.h5')
-            # converter = tf.TFLiteConverter.from_keras_model(args.model_name+'.h5')
-            # model = converter.convert()
-            # Load the TFLite model and allocate tensors.
+
             interpreter = tf.Interpreter(args.model_name)
             interpreter.allocate_tensors()
 
@@ -67,8 +61,6 @@ def main():
                 image = numpy.array(rgb_data) / 255.0
                 (c, h, w) = image.shape
                 image = image.reshape([-1, 64, 128, w])
-       
-                # if image.shape != (64, 128, 3):
                 
                 # Get input and output tensors.
                 input_details = interpreter.get_input_details()
@@ -81,12 +73,12 @@ def main():
                 input_data = numpy.array(image, dtype=numpy.float32)
                 interpreter.set_tensor(input_details[0]['index'], input_data)
                 interpreter.invoke()
-                print(output_details)
+
                 captcha = ""
-                for i in range(6):
+                for i in range(9):
                     prediction = interpreter.get_tensor(output_details[i]['index'])
                     cap = decode(captcha_symbols, prediction)
-                    if(cap != '_'):
+                    if(cap != 'A'):
                         captcha = captcha + cap
                 output_file.write(x + "," + captcha + "\n")
 
