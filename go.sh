@@ -14,11 +14,21 @@ outputModified=" M $outputFile"
 modelModified=" M $outputFile"
 
 cd ./code
+
+# create venv if none exists
+if [  ! -d "./temp/bin" ]; then
+    echo "Venv directory DOES NOT exist"
+else
+    echo "Venv directory DOES exist"
+fi
+
+
+
 source temp/bin/activate
 cd ./project2
 cd ./code/validationData
 
-python classify.py --model-name $modelFile --captcha-dir $captchaDir --output $outputFile --symbols train_classify_symbols.txt
+#python classify.py --model-name $modelFile --captcha-dir $captchaDir --output $outputFile --symbols train_classify_symbols.txt
 
 status=`git status --porcelain`
 
