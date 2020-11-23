@@ -17,18 +17,34 @@ cd ./code
 
 # create venv if none exists
 if [  ! -d "./temp/bin" ]; then
-    echo "Venv directory DOES NOT exist"
+    
+    echo "Creating venv..."
+    python3 -m venv temp python=3.8
+
+    # virtual env is activated
+    echo "Activating venv..."
+    . ./temp/bin/activate
+
+    echo "Installing wheel..."
+    pip3 install wheel
+ 
+    echo "Installing tflite_runtime..."
+    pip3 install https://github.com/google-coral/pycoral/releases/download/release-frogfish/tflite_runtime-2.5.0-cp38-cp38-linux_armv7l.whl
+
+    echo "Installing cv2..."
+    pip3 install opencv-python
+
+    echo "Installing numpy..."
+    pip3 install numpy
 else
-    echo "Venv directory DOES exist"
+    echo "Venv already exists"
+    source temp/bin/activate
 fi
 
-
-
-source temp/bin/activate
 cd ./project2
-cd ./code/validationData
+cd ./code/raspCaptcha
 
-#python classify.py --model-name $modelFile --captcha-dir $captchaDir --output $outputFile --symbols train_classify_symbols.txt
+python classify.py --model-name $modelFile --captcha-dir $captchaDir --output $outputFile --symbols train_classify_symbols.txt
 
 status=`git status --porcelain`
 
