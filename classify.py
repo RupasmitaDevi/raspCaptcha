@@ -57,32 +57,33 @@ def main():
             for x in os.listdir(args.captcha_dir):
                 # load image and preprocess it
                 raw_data = cv2.imread(os.path.join(args.captcha_dir, x))
-                rgb_data = cv2.cvtColor(raw_data, cv2.COLOR_BGR2RGB)
-                image = numpy.array(rgb_data) / 255.0
-                (c, h, w) = image.shape
-                image = image.reshape([-1, 64, 128, w])
-                
-                # Get input and output tensors.
-                input_details = interpreter.get_input_details()
-                output_details = interpreter.get_output_details()
+                if raw_data is not None: 
+                    rgb_data = cv2.cvtColor(raw_data, cv2.COLOR_BGR2RGB)
+                    image = numpy.array(rgb_data) / 255.0
+                    (c, h, w) = image.shape
+                    image = image.reshape([-1, 64, 128, w])
+                    
+                    # Get input and output tensors.
+                    input_details = interpreter.get_input_details()
+                    output_details = interpreter.get_output_details()
 
-                # Test the model on input data.
-                input_shape = input_details[0]['shape']
+                    # Test the model on input data.
+                    input_shape = input_details[0]['shape']
 
-                # Use same image as Keras model
-                input_data = numpy.array(image, dtype=numpy.float32)
-                interpreter.set_tensor(input_details[0]['index'], input_data)
-                interpreter.invoke()
+                    # Use same image as Keras model
+                    input_data = numpy.array(image, dtype=numpy.float32)
+                    interpreter.set_tensor(input_details[0]['index'], input_data)
+                    interpreter.invoke()
 
-                captcha = ""
-                for i in range(9):
-                    prediction = interpreter.get_tensor(output_details[i]['index'])
-                    cap = decode(captcha_symbols, prediction)
-                    if(cap != 'A'):
-                        captcha = captcha + cap
-                output_file.write(x + "," + captcha + "\n")
+                    captcha = ""
+                    for i in range(9):
+                        prediction = interpreter.get_tensor(output_details[i]['index'])
+                        cap = decode(captcha_symbols, prediction)
+                        if(cap != 'A'):
+                            captcha = captcha + cap
+                    output_file.write(x + "," + captcha + "\n")
 
-                print('Classified ' + x)
+                    print('Classified ' + x)
 
 if __name__ == '__main__':
     main()
