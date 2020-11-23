@@ -7,10 +7,11 @@ echo "$now"
 echo "Current date: $now"
 
 modelFile="converted_model2.tflite"
-captchaDir="KILROYDA-project2rpi"
+captchaDir="DEVIR-project2rpi"
 outputFile="$captchaDir""_output.txt"
 
 outputModified=" M $outputFile"
+newOutputFileAdded="?? $outputFile"
 modelModified=" M $outputFile"
 
 cd ./code
@@ -45,13 +46,14 @@ cd ./project2
 cd ./code/raspCaptcha
 
 echo "Enter details to pull from raspCaptcha repo:"
-git pull
+git checkout origin/main classify.py
+git checkout origin/main $modelFile
 
 python classify.py --model-name $modelFile --captcha-dir $captchaDir --output $outputFile --symbols train_classify_symbols.txt
 
 status=`git status --porcelain`
 
-if [[ "$status" == "$outputModified" ]]; then
+if [[ "$status" == "$outputModified" ]] || [[ "$status" == "$newOutputFileAdded" ]]; then
     echo "Output file has been changed:"
     echo "$status"
     git add $outputFile
