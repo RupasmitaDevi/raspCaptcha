@@ -20,3 +20,4 @@ Given these assumptions, the script can be run from the Home directory with:
 *		install tflite_runtime (tflite_runtime-2.5.0-cp38-cp38-linux_armv7l)
 *		install opencv-python
 *		install numpy
+Collaborators: @dbkilroy, @RupasmitaDevi
