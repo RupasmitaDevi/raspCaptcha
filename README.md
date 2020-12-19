@@ -1,4 +1,5 @@
 # raspCaptcha
+A deep learning approach in python to break variable length captchas. This project was developed on a baseline project as part of the course - "Scalable Computing" at Trinity College Dublin. The tflite model was used to run the classifier in systems with constraints like Fog devices such as raspberry-Pi's.
 
 Go.sh is our automation script and can be run under the following assumptions:
 1. 	In a linux environment, the script is located in the Home folder with a local git repo already set up in the following location
